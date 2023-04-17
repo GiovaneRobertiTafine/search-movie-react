@@ -1,0 +1,40 @@
+#box-filmes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 25px;
+    padding: 1rem;
+
+    div {
+        transition: all ease-in-out 0.5s;
+
+        &:hover {
+            transform: scale(1.03);
+            box-shadow: rgba(0, 0, 0, 0.7) 0px 5px 15px;
+        }
+    }
+}
+
+#box-search-filmes {
+    display: flex;
+    padding: 1rem;
+    flex-direction: column;
+}
+
+#search-filmes {
+    width: 30%;
+    margin-top: 5px;
+
+    @media only screen and (max-width: 900px) {
+        width: auto;
+    }
+}
+
+.thumb-filme {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #ccc;
+    height: 350px;
+    width: auto;
+}
