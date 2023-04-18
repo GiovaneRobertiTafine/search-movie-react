@@ -8,11 +8,10 @@
     align-items: center;
     justify-content: center;
     z-index: 9999 !important;
+    align-items: baseline;
+    overflow: auto;
 
-    @media only screen and (max-width: 900px) {
-        overflow: auto;
-        align-items: baseline;
-    }
+    @media only screen and (max-width: 900px) {}
 
 }
 
@@ -23,11 +22,12 @@
     background-color: #303030;
     box-shadow: rgba(0, 0, 0, 0.7) 0px 5px 15px;
     position: relative;
-    display: flex;
+    margin: 40px 0px;
 
     @media only screen and (max-width: 900px) {
+        width: 100%;
+        margin: 0;
         flex-direction: column-reverse;
-        margin: 40px 0px;
     }
 }
 
@@ -62,7 +62,7 @@
 }
 
 #modal-tab {
-    margin: 20px 0px;
+    margin: 1.5rem;
     display: flex;
     gap: 10px;
     clear: both;
@@ -98,6 +98,15 @@ button {
 }
 
 #filme-info {
+    display: flex;
+    border-bottom: 1px solid #202020;
+
+    @media only screen and (max-width: 900px) {
+        flex-direction: column-reverse;
+    }
+}
+
+#filme-descricao {
     padding: 1.5rem;
     width: 50%;
     color: #fff;
@@ -105,4 +114,5 @@ button {
     @media only screen and (max-width: 900px) {
         width: 100%;
     }
+
 }

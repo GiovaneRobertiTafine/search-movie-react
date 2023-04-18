@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect, createRef } from "react";
+import React, { useState, useRef, useEffect, createRef, createContext } from "react";
 import { fetchFilme, fetchSearch, fetchTodos } from "./services";
 import './App.scss';
 import ModalComponent from "./components/modal/modal.component";
+import { FilmeContext } from "./contexts/index.context";
 
 function App() {
     const lastRef = useRef(null);
@@ -14,6 +15,7 @@ function App() {
     const [valueSearch, setValueSearch] = useState(null);
     const [timer, setTimer] = useState(null);
     const [filme, setFilme] = useState<any>(null);
+    const value = { filme, setFilme };
 
     useEffect(() => {
         // Fetch no mount da página.
@@ -92,37 +94,39 @@ function App() {
     };
 
     return (
-        <div>
-            {filme && <ModalComponent filme={filme} closeModal={handlerCloseModal} />}
-            <h2>Lorem ipsum's list</h2>
-            <div id="box-search-filmes">
-                {/* <label htmlFor="search-filmes">Pesquisar filmes: (mín. 2 caracteres)</label> */}
-                <input type="text" id="search-filmes" placeholder="Pesquisar filmes: (mín. 2 caracteres)" onChange={v => {
-                    setValueSearch(v.target.value); setPaginacao((prev) => ({
-                        ...prev,
-                        page: 1,
-                    }));
-                }} />
+        <FilmeContext.Provider value={value}>
+            <div>
+                {filme && <ModalComponent closeModal={handlerCloseModal} />}
+                <h2>Lorem ipsum's list</h2>
+                <div id="box-search-filmes">
+                    {/* <label htmlFor="search-filmes">Pesquisar filmes: (mín. 2 caracteres)</label> */}
+                    <input type="text" id="search-filmes" placeholder="Pesquisar filmes: (mín. 2 caracteres)" onChange={v => {
+                        setValueSearch(v.target.value); setPaginacao((prev) => ({
+                            ...prev,
+                            page: 1,
+                        }));
+                    }} />
+                    {isLoading && <p>Loading...</p>}
+                </div>
+                <div id="box-filmes">
+                    {itens.map((filme, index) => {
+                        return (
+                            <div style={{ cursor: "pointer" }} key={filme.id} onClick={() => handlerModal(filme.id)}>
+                                {
+                                    filme.poster_path ?
+                                        <div className="thumb-filme" style={{ backgroundImage: "url(https://image.tmdb.org/t/p/w780" + filme.poster_path + ")" }} /> :
+                                        <div className="thumb-filme">{filme.title} (sem imagem)</div>
+                                }
+                            </div>
+                        );
+                    })}
+
+                </div>
+                {!!itens.length && <div style={{ height: "10px" }} ref={lastRef} />}
+
                 {isLoading && <p>Loading...</p>}
             </div>
-            <div id="box-filmes">
-                {itens.map((filme, index) => {
-                    return (
-                        <div style={{ cursor: "pointer" }} key={filme.id} onClick={() => handlerModal(filme.id)}>
-                            {
-                                filme.poster_path ?
-                                    <div className="thumb-filme" style={{ backgroundImage: "url(https://image.tmdb.org/t/p/w780" + filme.poster_path + ")" }} /> :
-                                    <div className="thumb-filme">{filme.title} (sem imagem)</div>
-                            }
-                        </div>
-                    );
-                })}
-
-            </div>
-            {!!itens.length && <div style={{ height: "10px" }} ref={lastRef} />}
-
-            {isLoading && <p>Loading...</p>}
-        </div>
+        </ FilmeContext.Provider>
     );
 }
 

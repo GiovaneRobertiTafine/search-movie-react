@@ -18,6 +18,8 @@ input {
     padding: 0.5rem;
     background-color: #747474;
     color: #ffffff;
+    border: #202020 solid 1px;
+    border-bottom: 2px solid #fff;
 
     &::placeholder {
         color: #cccccc;
