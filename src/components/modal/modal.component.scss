@@ -95,6 +95,15 @@ button {
         }
     }
 
+    &.btn-mais {
+        padding: 5px;
+        background-color: transparent;
+        color: #fff;
+        border: none;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
 }
 
 #filme-info {
@@ -115,4 +124,87 @@ button {
         width: 100%;
     }
 
+}
+
+.faixa-etaria {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &.faixa-L {
+        background-color: #009115;
+    }
+
+    &.faixa-10 {
+        background-color: #0080D7;
+    }
+
+    &.faixa-12 {
+        background-color: #f7c00c;
+    }
+
+    &.faixa-14 {
+        background-color: #EE8811;
+    }
+
+    &.faixa-16 {
+        background-color: #D0000E;
+    }
+
+    &.faixa-18 {
+        background-color: #000000;
+    }
+}
+
+.faixa-etaria-info {
+    font-size: 8px;
+    width: 12px;
+    height: 12px;
+    text-align: center;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    line-height: 8px;
+    align-self: baseline;
+    margin-left: 0 !important;
+    position: relative;
+
+    >div {
+        display: none;
+        position: absolute;
+        line-height: normal;
+        z-index: 9999;
+        background-color: #1f1f1f;
+        box-shadow: rgba(0, 0, 0, 0.7) 0px 5px 15px;
+        width: 500px;
+        height: auto;
+        text-align: left;
+        font-size: 15px;
+        padding: 10px;
+        top: calc(100% + 15px);
+        left: -25px;
+
+        &::after {
+            content: "";
+            position: absolute;
+            display: inline-block;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 15px solid #1f1f1f;
+
+            left: 15px;
+            bottom: 100%;
+        }
+
+    }
+
+    &:hover {
+        >div {
+            display: flex;
+            gap: 5px;
+            flex-direction: column;
+        }
+    }
 }

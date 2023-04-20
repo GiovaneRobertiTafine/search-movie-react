@@ -45,7 +45,7 @@ export const fetchTodos = async (page: number) => {
 
 export const fetchSearch = async (search: string, page: number) => {
     try {
-        const { data } = await api.get("/search/movie?api_key=1c37e636b11ba605ccd7257aac891e48&language=en-US&query=" + search + "&page=" + page);
+        const { data } = await api.get("/search/movie?&language=en-US&query=" + search + "&page=" + page + "&");
         return data;
     } catch (error) {
         if (error.response) {
@@ -69,7 +69,7 @@ export const fetchSearch = async (search: string, page: number) => {
 
 export const fetchFilme = async (filmeId: number) => {
     try {
-        const { data } = await api.get("/movie/" + filmeId + "?api_key=1c37e636b11ba605ccd7257aac891e48");
+        const { data } = await api.get("/movie/" + filmeId + "?");
         return data;
     } catch (error) {
         if (error.response) {
@@ -93,7 +93,7 @@ export const fetchFilme = async (filmeId: number) => {
 
 export const fetchCredits = async (filmeId: number) => {
     try {
-        const { data } = await api.get("/movie/" + filmeId + "/credits?api_key=1c37e636b11ba605ccd7257aac891e48");
+        const { data } = await api.get("/movie/" + filmeId + "/credits?");
         return data;
     } catch (error) {
         if (error.response) {
@@ -117,7 +117,55 @@ export const fetchCredits = async (filmeId: number) => {
 
 export const fetchListaRecomendacoes = async (filmeId: number) => {
     try {
-        const { data } = await api.get("/movie/" + filmeId + "/recommendations?api_key=1c37e636b11ba605ccd7257aac891e48");
+        const { data } = await api.get("/movie/" + filmeId + "/recommendations?");
+        return data;
+    } catch (error) {
+        if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+        } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request);
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+        }
+        console.log(error.config);
+    }
+};
+
+export const fetchCertificao = async () => {
+    try {
+        const { data } = await api.get("/certification/movie/list?");
+        return data;
+    } catch (error) {
+        if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+        } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request);
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+        }
+        console.log(error.config);
+    }
+};
+
+export const fetchFaixaEtaria = async (filmeId: number) => {
+    try {
+        const { data } = await api.get("/movie/" + filmeId + "/release_dates?");
         return data;
     } catch (error) {
         if (error.response) {
@@ -142,5 +190,15 @@ export const fetchListaRecomendacoes = async (filmeId: number) => {
 const api = axios.create({
     baseURL: 'https://api.themoviedb.org/3',
 });
+
+api.interceptors.request.use(
+    config => {
+        config.url = config.url + "api_key=1c37e636b11ba605ccd7257aac891e48";
+        return config;
+    },
+    error => {
+        Promise.reject(error);
+    }
+);
 
 export default api;
