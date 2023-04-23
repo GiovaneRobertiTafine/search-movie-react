@@ -7,7 +7,7 @@ export interface ListaRecomendacoes {
     idFilme: number;
 }
 
-function ListaRecomendacoes({ idFilme }: ListaRecomendacoes) {
+function ListaRecomendacoesComponent({ idFilme }: ListaRecomendacoes) {
     const [itens, setItens] = useState<any[]>([]);
     const { filme, setFilme } = useContext(FilmeContext);
 
@@ -40,4 +40,4 @@ function ListaRecomendacoes({ idFilme }: ListaRecomendacoes) {
     );
 }
 
-export default ListaRecomendacoes;
+export default ListaRecomendacoesComponent;

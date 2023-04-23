@@ -25,5 +25,42 @@ button {
         background-color: #ccc;
         height: 230px;
         width: 150px;
+        flex-shrink: 0;
     }
+}
+
+#box-actors {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    padding: 1.5rem;
+
+    >div {
+        transition: all ease-in-out 0.5s;
+
+        &:hover {
+            transform: scale(1.03);
+            box-shadow: rgba(0, 0, 0, 0.7) 0px 5px 15px;
+        }
+    }
+}
+
+.thumb-actor {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #ccc;
+    height: 210px;
+    width: auto;
+}
+
+.thumb-actor-name {
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    height: auto;
+    padding: 0.3rem;
+    background-color: #00000080;
+    font-size: 0.85rem;
+    text-align: center;
 }

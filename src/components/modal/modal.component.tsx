@@ -1,9 +1,10 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import "./modal.component.scss";
 import { fetchCertificao, fetchCredits, fetchFaixaEtaria } from "../../services";
-import ListaRecomendacoes from "../lista-recomendacoes/lista-recomendacoes.component";
 import { CertificacaoContext, FilmeContext } from "../../contexts/index.context";
 import ActorsComponent from "../actors/actors.component";
+import ListaRecomendacoesComponent from "../lista-recomendacoes/lista-recomendacoes.component";
+import TrailerComponent from "../trailer/trailer.component";
 interface Modal {
     closeModal: (arg0: boolean) => void;
 }
@@ -16,7 +17,7 @@ interface FaixaEtaria {
 
 function ModalComponent({ closeModal }: Modal) {
     const [creditos, setCreditos] = useState(null);
-    const [modalTab, setModalTab] = useState<null | 'recomendacoes' | 'trailers'>('recomendacoes');
+    const [modalTab, setModalTab] = useState<'recomendacoes' | 'trailers'>('recomendacoes');
     const [actorsModal, setActorsModal] = useState(false);
     const { filme, setFilme } = useContext(FilmeContext);
     const [faixaEtaria, setFaixaEtaria] = useState<FaixaEtaria>();
@@ -158,15 +159,15 @@ function ModalComponent({ closeModal }: Modal) {
                             </div>
                         </div>
                         <div id="modal-tab">
-                            <button className="btn-tab active">Filmes Relacionados</button>
-                            <button className="btn-tab">Trailers</button>
+                            <button className={"btn-tab " + (modalTab === "recomendacoes" ? "active" : "")} onClick={() => setModalTab('recomendacoes')}>Filmes Relacionados</button>
+                            <button className={"btn-tab " + (modalTab === "trailers" ? "active" : "")} onClick={() => setModalTab('trailers')}>Trailers</button>
 
                         </div>
                         <div>
                             {
                                 modalTab === 'recomendacoes' ?
-                                    <ListaRecomendacoes idFilme={filme.id} /> :
-                                    null
+                                    <ListaRecomendacoesComponent idFilme={filme.id} /> :
+                                    <TrailerComponent idFilme={filme.id} />
                             }
                         </div>
                     </div>
