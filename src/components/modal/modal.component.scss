@@ -15,7 +15,7 @@
 
 }
 
-#modal {
+.modal {
     width: 80%;
     height: auto;
     min-height: 80%;
@@ -28,7 +28,12 @@
         width: 100%;
         margin: 0;
         flex-direction: column-reverse;
+
+        &.player-trailer {
+            height: 100%;
+        }
     }
+
 }
 
 

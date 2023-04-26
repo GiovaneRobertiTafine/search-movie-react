@@ -4,9 +4,10 @@ import "./trailer.component.scss";
 
 export interface Trailer {
     idFilme: number;
+    playerTrailer: (idTrailer: string) => void;
 }
 
-function TrailerComponent({ idFilme }: Trailer) {
+function TrailerComponent({ idFilme, playerTrailer }: Trailer) {
     const [idVideos, setIdVideos] = useState<string[]>([]);
     const [player, setPlayer] = useState<string>(null);
     useEffect(() => {
@@ -29,7 +30,7 @@ function TrailerComponent({ idFilme }: Trailer) {
                         {idVideos.map((v) => {
                             return (
                                 <div key={v} className="video-container" style={{ backgroundImage: "url('https://i.ytimg.com/vi/" + v + "/hqdefault.jpg')" }}>
-                                    <div onClick={() => setPlayer(v)} data-site="YouTube" data-id={v} data-title="Trailer">
+                                    <div onClick={() => playerTrailer(v)} data-site="YouTube" data-id={v} data-title="Trailer">
                                         <div className="box-play">
                                             <div className="play"></div>
                                         </div>

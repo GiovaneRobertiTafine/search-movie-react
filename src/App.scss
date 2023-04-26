@@ -1,7 +1,7 @@
 #box-filmes {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
     margin-top: 25px;
     padding: 1rem;
 
@@ -25,7 +25,7 @@
     width: 30%;
     margin-top: 5px;
 
-    @media only screen and (max-width: 900px) {
+    @media only screen and (max-width: 995px) {
         width: auto;
     }
 }
@@ -35,6 +35,44 @@
     background-repeat: no-repeat;
     background-position: center;
     background-color: #ccc;
-    height: 350px;
+    height: 330px;
     width: auto;
+
+    @media only screen and (min-width: 280px) {
+        height: 370px;
+    }
+
+    @media only screen and (min-width: 360px) {
+        height: 550px;
+    }
+
+    @media only screen and (min-width: 390px) and (max-width: 400px) {
+        height: 550px;
+    }
+
+    @media only screen and (min-width: 407px) {
+        height: 320px;
+    }
+
+    @media only screen and (min-width: 550px) and (max-width: 600px) {
+        height: 400px;
+    }
+
+    /* Small devices (portrait tablets and large phones, 600px and up) */
+    @media only screen and (min-width: 604px) {
+        height: 330px;
+    }
+
+    /* Medium devices (landscape tablets, 768px and up) */
+    @media only screen and (min-width: 800px) {
+        height: 315px;
+    }
+
+    /* Large devices (laptops/desktops, 992px and up) */
+    @media only screen and (min-width: 995px) {
+        height: 310px;
+    }
+
+    /* Extra large devices (large laptops and desktops, 1200px and up) */
+    @media only screen and (min-width: 1200px) {}
 }

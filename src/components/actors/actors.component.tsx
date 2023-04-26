@@ -34,7 +34,7 @@ function ActorsComponent({ filme, creditos, voltarModal }: Actors) {
             <div id="box-actors">
                 {creditos.cast.map((a, index) => {
                     return (
-                        <div style={{ cursor: "pointer", position: "relative" }} key={a.id}>
+                        <div style={{ cursor: "pointer", position: "relative" }} key={index}>
                             {
                                 a.profile_path ?
                                     <div className="thumb-actor" style={{ backgroundImage: "url(https://image.tmdb.org/t/p/w780" + a.profile_path + ")" }} /> :
@@ -53,8 +53,8 @@ function ActorsComponent({ filme, creditos, voltarModal }: Actors) {
                 {creditos?.crew?.map((c, i, arr) => {
                     return (
                         (i + 1) !== arr.length ?
-                            <span key={c.id}><strong>{c.job}: </strong>{c.name}, </span> :
-                            <span key={c.id}><strong>{c.job}: </strong>{c.name}.</span>
+                            <span key={i}><strong>{c.job}: </strong>{c.name}, </span> :
+                            <span key={i}><strong>{c.job}: </strong>{c.name}.</span>
                     );
                 })}
             </div>
