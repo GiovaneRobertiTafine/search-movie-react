@@ -167,13 +167,15 @@ button {
     font-size: 8px;
     width: 12px;
     height: 12px;
-    text-align: center;
     border: 1px solid #fff;
     border-radius: 50%;
-    line-height: 8px;
     align-self: baseline;
     margin-left: 0 !important;
+    line-height: 2px;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     >div {
         display: none;
