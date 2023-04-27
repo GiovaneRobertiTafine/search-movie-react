@@ -6,6 +6,7 @@ import ActorsComponent from "../actors/actors.component";
 import ListaRecomendacoesComponent from "../lista-recomendacoes/lista-recomendacoes.component";
 import TrailerComponent from "../trailer/trailer.component";
 import PlayerTrailerComponent from "../player-trailer/player-trailer.component";
+import OndeAssistirComponent from "../onde-assistir/onde-assistir.component";
 interface Modal {
     closeModal: (arg0: boolean) => void;
 }
@@ -18,7 +19,7 @@ interface FaixaEtaria {
 
 function ModalComponent({ closeModal }: Modal) {
     const [creditos, setCreditos] = useState(null);
-    const [modalTab, setModalTab] = useState<'recomendacoes' | 'trailers'>('recomendacoes');
+    const [modalTab, setModalTab] = useState<'recomendacoes' | 'trailers' | 'ondeAssistir'>('recomendacoes');
     const [actorsModal, setActorsModal] = useState(false);
     const [playerTrailerModal, setPlayerTrailerModal] = useState<string>(null);
     const { filme, setFilme } = useContext(FilmeContext);
@@ -150,12 +151,13 @@ function ModalComponent({ closeModal }: Modal) {
                                                         i !== 5 ?
                                                             <span key={c.id}>{c.name}, </span> :
                                                             <span key={c.id}>{c.name}...
-                                                                <button className="btn-mais" onClick={() => setActorsModal(true)}>mais</button>
                                                             </span>
                                                     );
                                                 }
                                             })
                                         }
+                                        <br />
+                                        <button className="btn-mais" onClick={() => setActorsModal(true)}>Elenco completo</button>
                                     </div>
                                 </div>
                                 <div id="poster" style={{ backgroundImage: "url(https://image.tmdb.org/t/p/w780" + filme.backdrop_path + ")" }}>
@@ -164,14 +166,18 @@ function ModalComponent({ closeModal }: Modal) {
                             <div id="modal-tab">
                                 <button className={"btn-tab " + (modalTab === "recomendacoes" ? "active" : "")} onClick={() => setModalTab('recomendacoes')}>Filmes Relacionados</button>
                                 <button className={"btn-tab " + (modalTab === "trailers" ? "active" : "")} onClick={() => setModalTab('trailers')}>Trailers</button>
-
+                                <button className={"btn-tab " + (modalTab === "ondeAssistir" ? "active" : "")} onClick={() => setModalTab('ondeAssistir')}>Onde Assistir</button>
                             </div>
                             <div>
-                                {
-                                    modalTab === 'recomendacoes' ?
-                                        <ListaRecomendacoesComponent idFilme={filme.id} /> :
-                                        <TrailerComponent idFilme={filme.id} playerTrailer={(idTrailer: string) => { setPlayerTrailerModal(idTrailer); }} />
-                                }
+                                {(() => {
+                                    if (modalTab === 'recomendacoes') {
+                                        return <ListaRecomendacoesComponent idFilme={filme.id} />;
+                                    } else if (modalTab === 'trailers') {
+                                        return <TrailerComponent idFilme={filme.id} playerTrailer={(idTrailer: string) => { setPlayerTrailerModal(idTrailer); }} />;
+                                    } else if (modalTab === 'ondeAssistir') {
+                                        return <OndeAssistirComponent idFilme={filme.id} />;
+                                    }
+                                })()}
                             </div>
                         </div>
                             ;
