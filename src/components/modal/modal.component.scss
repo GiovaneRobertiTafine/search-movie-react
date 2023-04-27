@@ -202,6 +202,10 @@ button {
             bottom: 100%;
         }
 
+        @media only screen and (max-width: 750px) {
+            width: 70vw;
+        }
+
     }
 
     &:hover {
@@ -211,4 +215,5 @@ button {
             flex-direction: column;
         }
     }
+
 }
