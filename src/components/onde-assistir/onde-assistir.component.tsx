@@ -30,7 +30,7 @@ function OndeAssistirComponent({ idFilme }: OndeAssistir) {
                     {
                         providers?.['buy'].map((v) => {
                             return (
-                                <div className="thumb-providers" key={v} style={{ backgroundImage: "url(https://www.themoviedb.org/t/p/original" + v.logo_path + ")" }} />
+                                <div className="thumb-providers" key={v.logo_path} style={{ backgroundImage: "url(https://www.themoviedb.org/t/p/original" + v.logo_path + ")" }} />
                             );
                         })
                     }
@@ -43,7 +43,7 @@ function OndeAssistirComponent({ idFilme }: OndeAssistir) {
                     {
                         providers?.['rent'].map((v) => {
                             return (
-                                <div className="thumb-providers" key={v} style={{ backgroundImage: "url(https://www.themoviedb.org/t/p/original" + v.logo_path + ")" }} />
+                                <div className="thumb-providers" key={v.logo_path} style={{ backgroundImage: "url(https://www.themoviedb.org/t/p/original" + v.logo_path + ")" }} />
                             );
                         })
                     }
@@ -56,7 +56,7 @@ function OndeAssistirComponent({ idFilme }: OndeAssistir) {
                     {
                         providers?.['flatrate'].map((v) => {
                             return (
-                                <div className="thumb-providers" key={v} style={{ backgroundImage: "url(https://www.themoviedb.org/t/p/original" + v.logo_path + ")" }} />
+                                <div className="thumb-providers" key={v.logo_path} style={{ backgroundImage: "url(https://www.themoviedb.org/t/p/original" + v.logo_path + ")" }} />
                             );
                         })
                     }

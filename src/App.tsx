@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, createRef, createContext } from "react";
-import { fetchCertificao, fetchFaixaEtaria, fetchFilme, fetchSearch, fetchTodos } from "./services";
+import { fetchCertificao, fetchFaixaEtaria, fetchFilme, fetchGenres, fetchSearch, fetchTodos } from "./services";
 import './App.scss';
 import ModalComponent from "./components/modal/modal.component";
 import { FilmeContext, CertificacaoContext } from "./contexts/index.context";
@@ -18,9 +18,11 @@ function App() {
     const [certificacao, setCertificacao] = useState<any[]>(null);
     const valueFilme = { filme, setFilme };
     const valueCertificacao = { certificacao };
+    const [genres, setGenres] = useState<any[]>(null);
 
     useEffect(() => {
         getFaixaEtaria();
+        getGeneros();
     }, []);
 
     useEffect(() => {
@@ -93,6 +95,13 @@ function App() {
         } catch (err) { }
     };
 
+    const getGeneros = async () => {
+        try {
+            const generos: any = await fetchGenres();
+            setGenres(generos.genres);
+        } catch (error) { }
+    };
+
     const handlerModal = async (filmeId: number) => {
         try {
             setIsLoading(true);
@@ -113,14 +122,34 @@ function App() {
                     {filme && <ModalComponent closeModal={handlerCloseModal} />}
                     <h2>Lorem ipsum's list</h2>
                     <div id="box-search-filmes">
-                        {/* <label htmlFor="search-filmes">Pesquisar filmes: (mín. 2 caracteres)</label> */}
-                        <input type="text" id="search-filmes" placeholder="Pesquisar filmes: (mín. 2 caracteres)" onChange={v => {
-                            setValueSearch(v.target.value); setPaginacao((prev) => ({
-                                ...prev,
-                                page: 1,
-                            }));
-                        }} />
+                        <div id="search-filmes">
+                            <span style={{ fontSize: "0.8rem" }}>Pesquisar filmes: (mín. 2 caracteres)</span>
+                            <input type="text" placeholder="" onChange={v => {
+                                setValueSearch(v.target.value); setPaginacao((prev) => ({
+                                    ...prev,
+                                    page: 1,
+                                }));
+                            }} />
+
+                            {/* <label htmlFor="search-filmes">Pesquisar filmes: (mín. 2 caracteres)</label> */}
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column" }}>
+                            <span style={{ fontSize: "0.8rem" }}>Genêros:</span>
+                            <select name="" id="select-search-generos">
+                                <option value={null}>Todos</option>
+                                {
+                                    genres?.map((v) => {
+                                        return (
+                                            <option key={v.id}>{v.name}</ option>
+                                        );
+                                    })
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div style={{ margin: '1rem 1rem 0rem 1rem' }}>
                         {isLoading && <p>Loading...</p>}
+
                     </div>
                     <div id="box-filmes">
                         {itens.map((filme, index) => {

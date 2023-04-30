@@ -18,16 +18,28 @@
 #box-search-filmes {
     display: flex;
     padding: 1rem 1rem 0rem 1rem;
-    flex-direction: column;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 #search-filmes {
-    width: 30%;
-    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 20%;
 
-    @media only screen and (max-width: 995px) {
-        width: auto;
+    @media only screen and (max-width: 1050px) {
+        width: 40%;
     }
+
+    @media only screen and (max-width: 700px) {
+        width: 100%;
+    }
+
+}
+
+#select-search-generos {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(10px, 1fr));
 }
 
 .thumb-filme {
