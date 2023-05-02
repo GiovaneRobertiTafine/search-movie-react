@@ -14,14 +14,14 @@ body {
     color: #ffffff;
 }
 
-input,
-select {
+input {
     padding: 0.5rem;
     background-color: #747474;
     color: #ffffff;
     border: #202020 solid 1px;
     border-bottom: 2px solid #fff;
     height: 35px;
+    font-size: 0.8rem;
 
     &::placeholder {
         color: #cccccc;

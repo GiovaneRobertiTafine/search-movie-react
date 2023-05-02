@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, createRef, createContext } from "react";
-import { fetchCertificao, fetchFaixaEtaria, fetchFilme, fetchGenres, fetchSearch, fetchTodos } from "./services";
+import { fetchCertificao, fetchFaixaEtaria, fetchFilme, fetchGenreSelected, fetchGenres, fetchSearch, fetchTodos } from "./services";
 import './App.scss';
 import ModalComponent from "./components/modal/modal.component";
 import { FilmeContext, CertificacaoContext } from "./contexts/index.context";
@@ -18,11 +18,23 @@ function App() {
     const [certificacao, setCertificacao] = useState<any[]>(null);
     const valueFilme = { filme, setFilme };
     const valueCertificacao = { certificacao };
-    const [genres, setGenres] = useState<any[]>(null);
+    const [generos, setGeneros] = useState<any[]>(null);
+    const [generoSelecionado, setGeneroSelecionado] = useState<any>(null);
 
     useEffect(() => {
         getFaixaEtaria();
         getGeneros();
+        document.addEventListener('click', (event) => {
+            if (event.composedPath().indexOf(document.querySelector('#select-search-generos')) < 0) {
+                document.getElementById('box-select-search-generos').style.display = 'none';
+            } else {
+                if (getComputedStyle(document.getElementById('box-select-search-generos')).getPropertyValue('display') === 'none') {
+                    document.getElementById('box-select-search-generos').style.display = 'grid';
+                } else {
+                    document.getElementById('box-select-search-generos').style.display = 'none';
+                }
+            }
+        });
     }, []);
 
     useEffect(() => {
@@ -44,16 +56,19 @@ function App() {
 
         }
 
-    }, [itens.length]);
+    }, [itens]);
 
     useEffect(() => {
         if (paginacao.page !== 1 && paginacao.page <= paginacao.totalPages) {
-            valueSearch ? getValueSearch(valueSearch, paginacao.page) : getMoreTodos(paginacao.page);
+            if (valueSearch) getValueSearch(valueSearch, paginacao.page);
+            if (generoSelecionado) getGeneroSelecionado(paginacao.page);
+            if (!valueSearch && !generoSelecionado) getMoreTodos(paginacao.page);
         }
     }, [paginacao.page]);
 
     useEffect(() => {
         if (valueSearch?.length >= 2) {
+            setGeneroSelecionado(0);
             setIsLoading(true);
             clearTimeout(timer);
             setTimer(
@@ -69,6 +84,41 @@ function App() {
         }
 
     }, [valueSearch]);
+
+    // const handlerValueSearch = () => {
+    //     if (valueSearch?.length >= 2) {
+    //         setGeneroSelecionado(null);
+    //         setIsLoading(true);
+    //         clearTimeout(timer);
+    //         setTimer(
+    //             setTimeout(() => {
+    //                 getValueSearch(valueSearch, paginacao.page);
+    //                 setIsLoading(false);
+    //             }, 3000)
+    //         );
+
+    //     } else if (!valueSearch && valueSearch !== null) {
+    //         clearTimeout(timer);
+    //         getMoreTodos(paginacao.page);
+    //     }
+    // };
+
+    useEffect(() => {
+        if (itens.length > 0 && generoSelecionado !== 0) {
+            setValueSearch(null);
+            if (!generoSelecionado) getMoreTodos(paginacao.page);
+            if (generoSelecionado) getGeneroSelecionado(paginacao.page);
+        }
+    }, [generoSelecionado]);
+
+    // const handlerGeneroSelecionado = () => {
+    //     if (itens.length > 0) {
+    //         setValueSearch(null);
+    //         console.log(generoSelecionado);
+    //         if (!generoSelecionado) getMoreTodos(paginacao.page);
+    //         if (generoSelecionado) getGeneroSelecionado(paginacao.page);
+    //     }
+    // };
 
     const getMoreTodos = async (page: number) => {
         try {
@@ -97,8 +147,16 @@ function App() {
 
     const getGeneros = async () => {
         try {
-            const generos: any = await fetchGenres();
-            setGenres(generos.genres);
+            const generosTodos: any = await fetchGenres();
+            setGeneros(generosTodos.genres);
+        } catch (error) { }
+    };
+
+    const getGeneroSelecionado = async (page: number) => {
+        try {
+            const newTodos: any = await fetchGenreSelected(generoSelecionado.id, page);
+            setItens((prev) => page > 1 ? prev.concat(newTodos.results) : prev = newTodos.results);
+            setPaginacao((prev) => ({ ...prev, totalPages: newTodos.total_pages }));
         } catch (error) { }
     };
 
@@ -124,27 +182,50 @@ function App() {
                     <div id="box-search-filmes">
                         <div id="search-filmes">
                             <span style={{ fontSize: "0.8rem" }}>Pesquisar filmes: (mín. 2 caracteres)</span>
-                            <input type="text" placeholder="" onChange={v => {
-                                setValueSearch(v.target.value); setPaginacao((prev) => ({
+                            <input type="text" placeholder="" value={valueSearch ?? ''} onChange={v => {
+                                setValueSearch(v.target.value);
+                                setPaginacao((prev) => ({
                                     ...prev,
                                     page: 1,
                                 }));
+                                // handlerValueSearch();
                             }} />
 
                             {/* <label htmlFor="search-filmes">Pesquisar filmes: (mín. 2 caracteres)</label> */}
                         </div>
                         <div style={{ display: "flex", flexDirection: "column" }}>
                             <span style={{ fontSize: "0.8rem" }}>Genêros:</span>
-                            <select name="" id="select-search-generos">
-                                <option value={null}>Todos</option>
-                                {
-                                    genres?.map((v) => {
-                                        return (
-                                            <option key={v.id}>{v.name}</ option>
-                                        );
-                                    })
-                                }
-                            </select>
+                            <button id="select-search-generos" onClick={() => {
+
+                            }}>
+                                <span>{generoSelecionado ? generoSelecionado.name : 'Todos'}</span>
+                                <div id="box-select-search-generos">
+                                    <span onClick={() => {
+                                        setGeneroSelecionado(null);
+                                        setPaginacao((prev) => ({
+                                            ...prev,
+                                            page: 1,
+                                        }));
+                                        // handlerGeneroSelecionado();
+                                    }} key={'0'}>Todos</span>
+                                    {
+                                        generos?.map((v) => {
+                                            return (
+                                                <span key={v.id} onClick={() => {
+                                                    setGeneroSelecionado(v);
+                                                    setPaginacao((prev) => ({
+                                                        ...prev,
+                                                        page: 1,
+                                                    }));
+                                                    // handlerGeneroSelecionado();
+                                                }
+                                                }>{v.name}</ span>
+                                            );
+                                        })
+                                    }
+
+                                </div>
+                            </button>
                         </div>
                     </div>
                     <div style={{ margin: '1rem 1rem 0rem 1rem' }}>
