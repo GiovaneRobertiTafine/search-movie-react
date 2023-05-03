@@ -68,7 +68,6 @@ function ModalComponent({ closeModal }: Modal) {
                 descricao: result.release_dates[0].descriptors,
                 significado: certificacao.filter(v => v.certification === result.release_dates[0].certification)[0].meaning
             });
-            console.log(faixaEtaria);
         } catch (err) { }
     };
 
