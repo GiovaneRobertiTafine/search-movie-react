@@ -26,34 +26,34 @@ function App() {
         getGeneros();
         window.addEventListener('resize', (event) => {
             if (getComputedStyle(document.getElementById('box-select-search-generos')).getPropertyValue('display') === 'grid' && window.innerWidth <= 500) {
-                // document.documentElement.style.overflow = 'hidden';
-                document.getElementsByTagName('body')[0].style.overflowY = 'hidden';
+                document.documentElement.style.overflow = 'hidden';
+                // document.getElementsByTagName('body')[0].style.overflowY = 'hidden';
                 window.scrollTo(0, 0);
                 document.getElementById('close-select-search-generos').style.display = 'block';
             } else if (window.innerWidth > 500) {
-                // document.documentElement.style.overflow = 'auto';
-                document.getElementsByTagName('body')[0].style.overflowY = 'auto';
+                document.documentElement.style.overflow = 'auto';
+                // document.getElementsByTagName('body')[0].style.overflowY = 'auto';
                 document.getElementById('close-select-search-generos').style.display = 'none';
             }
         });
         window.addEventListener('click', (event) => {
             if (event.composedPath().indexOf(document.querySelector('#select-search-generos')) < 0) {
                 document.getElementById('box-select-search-generos').style.display = 'none';
-                // document.documentElement.style.overflow = 'auto';
-                document.getElementsByTagName('body')[0].style.overflowY = 'auto';
+                document.documentElement.style.overflow = 'auto';
+                // document.getElementsByTagName('body')[0].style.overflowY = 'auto';
                 document.getElementById('close-select-search-generos').style.display = 'none';
             } else {
                 if (getComputedStyle(document.getElementById('box-select-search-generos')).getPropertyValue('display') === 'none') {
                     document.getElementById('box-select-search-generos').style.display = 'grid';
                     if (window.innerWidth <= 500) {
-                        // document.documentElement.style.overflow = 'hidden';
-                        document.getElementsByTagName('body')[0].style.overflowY = 'hidden';
+                        document.documentElement.style.overflow = 'hidden';
+                        // document.getElementsByTagName('body')[0].style.overflowY = 'hidden';
                         window.scrollTo(0, 0);
                         document.getElementById('close-select-search-generos').style.display = 'block';
                     };
                 } else {
-                    // document.documentElement.style.overflow = 'auto';
-                    document.getElementsByTagName('body')[0].style.overflowY = 'auto';
+                    document.documentElement.style.overflow = 'auto';
+                    // document.getElementsByTagName('body')[0].style.overflowY = 'auto';
                     document.getElementById('box-select-search-generos').style.display = 'none';
                     document.getElementById('close-select-search-generos').style.display = 'none';
                 }
