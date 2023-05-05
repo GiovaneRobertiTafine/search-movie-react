@@ -61,6 +61,31 @@ function App() {
 
         });
 
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', function (event) {
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            event.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = event;
+        });
+        var buttonInstall = document.getElementById('button-intall-app');
+
+        buttonInstall?.addEventListener('click', function (e) {
+            // hide our user interface that shows our A2HS button
+            // Show the prompt
+            deferredPrompt.prompt();
+            // Wait for the user to respond to the prompt
+            deferredPrompt.userChoice
+                .then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the A2HS prompt');
+                    } else {
+                        console.log('User dismissed the A2HS prompt');
+                    }
+                    deferredPrompt = null;
+                });
+        });
     }, []);
 
     useEffect(() => {
@@ -204,7 +229,7 @@ function App() {
             <CertificacaoContext.Provider value={valueCertificacao}>
                 <div>
                     {filme && <ModalComponent closeModal={handlerCloseModal} />}
-                    <h2>Lorem ipsum's list</h2>
+                    <span id="button-intall-app" style={{ color: "blue", textDecoration: "underline", cursor: "pointer", fontSize: "0.75rem", marginLeft: "1rem" }}>Click Install App</span>
                     <div id="box-search-filmes">
                         <div id="search-filmes">
                             <span style={{ fontSize: "0.8rem" }}>Pesquisar filmes: (mín. 2 caracteres)</span>

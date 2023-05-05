@@ -289,7 +289,7 @@ const api = axios.create({
 
 api.interceptors.request.use(
     config => {
-        config.url = config.url + "api_key=1c37e636b11ba605ccd7257aac891e48";
+        config.url = config.url + "api_key=" + process.env.REACT_APP_API_KEY;
         return config;
     },
     error => {
