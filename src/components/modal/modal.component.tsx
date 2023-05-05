@@ -45,9 +45,14 @@ function ModalComponent({ closeModal }: Modal) {
         getCredits();
         getFaixaEtaria();
         window.onclick = e => {
+            console.log((e.target as HTMLElement)?.id === "back-drop");
+            console.log((e.target as HTMLElement)?.id === "modal-header");
             if ((e.target as HTMLElement).id === "back-drop" || (e.target as HTMLElement).id === "modal-header") {
                 closeModal(true);
                 document.documentElement.style.overflow = 'auto';
+            } else {
+                document.documentElement.style.overflow = 'hidden';
+
             }
         };
     }, [filme]);
