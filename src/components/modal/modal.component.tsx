@@ -55,6 +55,12 @@ function ModalComponent({ closeModal }: Modal) {
         };
     }, [filme]);
 
+    useEffect(() => {
+        return () => {
+            window.onclick = () => { document.documentElement.style.overflow = 'auto'; };
+        };
+    }, []);
+
     const getCredits = async () => {
         try {
             const creditos: any = await fetchCredits(filme.id);
